@@ -37,7 +37,6 @@ const Home = () => {
           <WeatherDisplay />
         </section>
       </article>
-      <h1>Hello {weather.location}!</h1>
     </WeatherContext.Provider>
   );
 };

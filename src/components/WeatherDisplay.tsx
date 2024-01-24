@@ -1,63 +1,72 @@
 import { useContext, useEffect, useState } from "react";
 import WeatherContext from "../lib/WeatherContext";
 import { useForecast } from "../lib/utils";
-import { APIResponseType, WeatherStateType } from "../lib/definitions";
+import { WeatherStateType } from "../lib/definitions";
 
 const WeatherDisplay = () => {
   const weather = useContext(WeatherContext);
   const [weatherResponse, setWeatherResponse] = useState<WeatherStateType>({
-    location: "",
+    location: "San Francisco",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const controller = new AbortController();
-    const apiKey = import.meta.env.VITE_API__KEY;
+    const apiKey = import.meta.env.VITE_API_KEY;
 
+    setLoading(true);
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${weather.location}&days=3&aqi=no&alerts=no`,
       { signal: controller.signal }
     )
       .then((res) => res.json())
-      .then(async (data: APIResponseType) => {
-        let usingForecast = await useForecast(data, weather);
+      .then(async (data) => {
+        let usingForecast = await useForecast(data);
         setWeatherResponse(usingForecast);
+        setLoading(false);
       })
       .catch((error: Error) => {
         console.log(error);
       });
+    return () => {
+      controller.abort();
+    };
   }, [weather.location]);
 
   useEffect(() => {
     document.body.className = `${weatherResponse.theme}`;
   }, [weatherResponse]);
 
-  return (
-    <>
-      <img
-        src={weatherResponse?.icon}
-        alt="Icon for the current weather"
-        id="condition-icon"
-      />
+  if (loading) {
+    return <h1>Loading...</h1>;
+  } else {
+    return (
+      <>
+        <img
+          src={weatherResponse?.icon}
+          alt="Icon for the current weather"
+          id="condition-icon"
+        />
 
-      <h1>{`${weatherResponse?.temperature}°`}</h1>
-      <h3>{weatherResponse?.location}</h3>
-      <h4>
-        <strong>{weatherResponse?.condition}</strong>
-      </h4>
+        <h1>{`${weatherResponse?.temperature}°`}</h1>
+        <h3>{weatherResponse?.location}</h3>
+        <h4>
+          <strong>{weatherResponse?.condition}</strong>
+        </h4>
 
-      <hr />
+        <hr />
 
-      <section id="other-info">
-        <div className="info-row">
-          <span>{`Feels like: ${weatherResponse?.feelsLike}°`}</span>
-          <span>{`Wind: ${weatherResponse?.gust}`}</span>
-        </div>
-        <div className="info-row">
-          <span>{`Humidity: ${weatherResponse?.humidity}%`}</span>
-          <span>{`UV Index: ${weatherResponse?.uvIndex}`}</span>
-        </div>
+        <section id="other-info">
+          <div className="info-row">
+            <span>{`Feels like: ${weatherResponse?.feelsLike}°`}</span>
+            <span>{`Wind: ${weatherResponse?.gust}`}</span>
+          </div>
+          <div className="info-row">
+            <span>{`Humidity: ${weatherResponse?.humidity}%`}</span>
+            <span>{`UV Index: ${weatherResponse?.uvIndex}`}</span>
+          </div>
 
-        {/* {weather.extended && (
+          {/* {weather.extended && (
           <section id="day-forecast">
             <h3>Extended Forecast</h3>
 
@@ -84,9 +93,10 @@ const WeatherDisplay = () => {
             </div>
           </section>
         )} */}
-      </section>
-    </>
-  );
+        </section>
+      </>
+    );
+  }
 };
 
 export default WeatherDisplay;
