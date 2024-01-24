@@ -1,0 +1,150 @@
+:root {
+  font-family: "Montserrat", Helvetica, sans-serif;
+}
+
+@mixin flex-column-center-vh {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  background-color: #666;
+  padding: 0px 25px;
+  margin: 0px;
+  min-height: 100vh;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    color: white;
+    font-weight: 400;
+  }
+}
+
+#search-form {
+  input {
+    border-radius: 200px;
+    border: 1px solid transparent;
+    height: 2em;
+  }
+}
+
+#weather-container {
+  @include flex-column-center-vh();
+
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+#weather-body {
+  @include flex-column-center-vh();
+
+  background-color: rgba(255, 255, 255, 0.25);
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.25);
+
+  span:not(.info-row > span) {
+    display: block;
+    margin: 50px;
+    text-align: center;
+    color: #fff;
+
+    #condition-icon {
+      width: 100%;
+      max-width: 200px;
+    }
+
+    h1 {
+      font-size: 4em;
+      margin: 0px auto;
+    }
+
+    h3,
+    h4 {
+      font-weight: 400;
+      margin: 10px auto;
+    }
+
+    hr {
+      border-color: #fff;
+      margin: 25px 0px;
+    }
+
+    #other-info {
+      h3 {
+        font-weight: 700;
+        margin-top: 40px;
+      }
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: center;
+
+      span:nth-child(odd) {
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      span:nth-child(even) {
+        border-left: 1px solid #fff;
+        padding-left: 10px;
+      }
+    }
+
+    .info-row:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    #days {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      section {
+        padding: 0px 25px;
+      }
+
+      section:first-child {
+        border-right: 1px solid #fff;
+      }
+
+      h4 {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* THEMES */
+
+body {
+  &.blue {
+    background: linear-gradient(0deg, #0066b2 0%, #89cff0 100%);
+  }
+  &.day-grey {
+    background: linear-gradient(0deg, #666 0%, #89cff0 100%);
+  }
+  &.overcast {
+    background: linear-gradient(0deg, #333 0%, #dadada 100%);
+  }
+}
