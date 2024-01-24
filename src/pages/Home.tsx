@@ -20,6 +20,7 @@ const Home = () => {
   return (
     <WeatherContext.Provider value={weather}>
       <Header>
+        <h2>Weathur</h2>
         <form
           onSubmit={(e) => {
             handleSubmit(e);
