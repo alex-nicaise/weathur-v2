@@ -14,6 +14,12 @@
   align-items: center;
 }
 
+@mixin text-loader($height, $width, $marginb) {
+  height: $height;
+  width: $width;
+  margin-bottom: $marginb;
+}
+
 body {
   background-color: #666;
   padding: 0px 25px;
@@ -96,7 +102,9 @@ header {
     }
 
     hr {
-      border-color: #fff;
+      background-color: #fff;
+      border: 0px;
+      height: 1px;
       margin: 25px 0px;
     }
 
@@ -145,6 +153,90 @@ header {
   }
 }
 
+/* Weather Skeleton */
+
+#weather-display-skeleton {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin: 50px;
+
+  div.condition-icon-loader {
+    width: 175px;
+    height: 175px;
+    margin-bottom: 35px;
+  }
+
+  .h1-loader {
+    @include text-loader(78px, 100px, 25px);
+  }
+
+  .h3-loader {
+    @include text-loader(18px, 175px, 15px);
+  }
+
+  .h4-loader {
+    @include text-loader(14px, 100px, 15px);
+  }
+
+  hr {
+    margin-top: 10px !important;
+    width: 100% !important;
+  }
+}
+
+#other-info-loader {
+  margin-bottom: 35px;
+
+  .info-para-loader {
+    @include text-loader(14px, 100px, 3px);
+    padding-left: 0px !important;
+    border-left: 0px !important;
+  }
+}
+
+#day-forecast-loader {
+  @include flex-column-center-vh;
+  margin-bottom: 25px;
+
+  #days-loader-container {
+    display: flex;
+  }
+  .days-loader {
+    max-width: 50%;
+    margin: 0px 5px;
+
+    section {
+      @include flex-column-center-vh;
+      p {
+        @include text-loader(12px, 75px, -10px);
+      }
+    }
+  }
+}
+
+// Loading Animation (thank you Codeguage for base code)
+.load {
+  animation-name: loadingComponent;
+  animation-duration: 1s;
+  transition: ease-in-out;
+  background: linear-gradient(-45deg, #bababa 30%, white 50%, #bababa 70%);
+  animation-iteration-count: infinite;
+  background-size: 500%;
+  background-position-x: 100%;
+  opacity: 0.25;
+}
+
+@keyframes loadingComponent {
+  0% {
+    background-position-x: 100%;
+  }
+
+  100% {
+    background-position-x: 0%;
+  }
+}
+
 /* THEMES */
 
 body {
@@ -172,6 +264,14 @@ body {
     section:first-child {
       border-right: none !important;
       border-bottom: 1px solid white;
+    }
+  }
+
+  #days-loader-container {
+    @include flex-column-center-vh();
+
+    .days-loader:nth-child(2) {
+      margin-top: 25px;
     }
   }
 }

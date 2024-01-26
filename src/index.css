@@ -88,7 +88,9 @@ header h2 {
   margin: 10px auto;
 }
 #weather-body span:not(.info-row > span) hr {
-  border-color: #fff;
+  background-color: #fff;
+  border: 0px;
+  height: 1px;
   margin: 25px 0px;
 }
 #weather-body span:not(.info-row > span) #other-info h3 {
@@ -124,6 +126,94 @@ header h2 {
   font-weight: 600;
 }
 
+/* Weather Skeleton */
+#weather-display-skeleton {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin: 50px;
+}
+#weather-display-skeleton div.condition-icon-loader {
+  width: 175px;
+  height: 175px;
+  margin-bottom: 35px;
+}
+#weather-display-skeleton .h1-loader {
+  height: 78px;
+  width: 100px;
+  margin-bottom: 25px;
+}
+#weather-display-skeleton .h3-loader {
+  height: 18px;
+  width: 175px;
+  margin-bottom: 15px;
+}
+#weather-display-skeleton .h4-loader {
+  height: 14px;
+  width: 100px;
+  margin-bottom: 15px;
+}
+#weather-display-skeleton hr {
+  margin-top: 10px !important;
+  width: 100% !important;
+}
+
+#other-info-loader {
+  margin-bottom: 35px;
+}
+#other-info-loader .info-para-loader {
+  height: 14px;
+  width: 100px;
+  margin-bottom: 3px;
+  padding-left: 0px !important;
+  border-left: 0px !important;
+}
+
+#day-forecast-loader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+}
+#day-forecast-loader #days-loader-container {
+  display: flex;
+}
+#day-forecast-loader .days-loader {
+  max-width: 50%;
+  margin: 0px 5px;
+}
+#day-forecast-loader .days-loader section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#day-forecast-loader .days-loader section p {
+  height: 12px;
+  width: 75px;
+  margin-bottom: -10px;
+}
+
+.load {
+  animation-name: loadingComponent;
+  animation-duration: 1s;
+  transition: ease-in-out;
+  background: linear-gradient(-45deg, #bababa 30%, white 50%, #bababa 70%);
+  animation-iteration-count: infinite;
+  background-size: 500%;
+  background-position-x: 100%;
+  opacity: 0.25;
+}
+
+@keyframes loadingComponent {
+  0% {
+    background-position-x: 100%;
+  }
+  100% {
+    background-position-x: 0%;
+  }
+}
 /* THEMES */
 body.blue {
   background: linear-gradient(0deg, #0066b2 0%, #89cff0 100%);
@@ -147,6 +237,15 @@ body.overcast {
   #days section:first-child {
     border-right: none !important;
     border-bottom: 1px solid white;
+  }
+  #days-loader-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #days-loader-container .days-loader:nth-child(2) {
+    margin-top: 25px;
   }
 }
 

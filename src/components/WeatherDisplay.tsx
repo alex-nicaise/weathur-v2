@@ -2,12 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import WeatherContext from "../lib/WeatherContext";
 import { useForecast } from "../lib/utils";
 import { WeatherStateType } from "../lib/definitions";
+import WeatherDisplaySkeleton from "../skeletons/WeatherDisplaySkeleton";
 
 const WeatherDisplay = () => {
   const weather = useContext(WeatherContext);
-  const [weatherResponse, setWeatherResponse] = useState<WeatherStateType>({
-    location: "San Francisco",
-  });
+  const [weatherResponse, setWeatherResponse] = useState<WeatherStateType>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +21,7 @@ const WeatherDisplay = () => {
       .then((res) => res.json())
       .then(async (data) => {
         let usingForecast = await useForecast(data);
+
         setWeatherResponse(usingForecast);
         setLoading(false);
       })
@@ -34,11 +34,11 @@ const WeatherDisplay = () => {
   }, [weather.location]);
 
   useEffect(() => {
-    document.body.className = `${weatherResponse.theme}`;
+    document.body.className = `${weatherResponse?.theme}`;
   }, [weatherResponse]);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <WeatherDisplaySkeleton />;
   } else {
     return (
       <span>
