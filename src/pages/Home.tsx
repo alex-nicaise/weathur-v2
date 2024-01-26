@@ -22,6 +22,7 @@ const Home = () => {
       <Header>
         <h2>Weathur</h2>
         <form
+          id="search-form"
           onSubmit={(e) => {
             handleSubmit(e);
           }}

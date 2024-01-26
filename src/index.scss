@@ -2,6 +2,11 @@
   font-family: "Montserrat", Helvetica, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
 @mixin flex-column-center-vh {
   display: flex;
   flex-direction: column;
@@ -15,7 +20,7 @@ body {
   margin: 0px;
   min-height: 100vh;
   height: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 #root {
@@ -37,14 +42,19 @@ header {
   h2 {
     color: white;
     font-weight: 400;
+    font-size: 25px;
   }
 }
 
 #search-form {
+  display: flex;
+
   input {
     border-radius: 200px;
     border: 1px solid transparent;
     height: 2em;
+    font-size: 16px;
+    padding-left: 10px;
   }
 }
 
@@ -146,5 +156,22 @@ body {
   }
   &.overcast {
     background: linear-gradient(0deg, #333 0%, #dadada 100%);
+  }
+}
+
+/* MEDIA Q */
+
+@media (max-width: 500px) {
+  #root {
+    padding: 0px;
+  }
+  #days {
+    display: flex !important;
+    flex-direction: column;
+
+    section:first-child {
+      border-right: none !important;
+      border-bottom: 1px solid white;
+    }
   }
 }

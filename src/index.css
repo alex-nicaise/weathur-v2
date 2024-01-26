@@ -2,13 +2,18 @@
   font-family: "Montserrat", Helvetica, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
 body {
   background-color: #666;
   padding: 0px 25px;
   margin: 0px;
   min-height: 100vh;
   height: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 #root {
@@ -30,12 +35,18 @@ header {
 header h2 {
   color: white;
   font-weight: 400;
+  font-size: 25px;
 }
 
+#search-form {
+  display: flex;
+}
 #search-form input {
   border-radius: 200px;
   border: 1px solid transparent;
   height: 2em;
+  font-size: 16px;
+  padding-left: 10px;
 }
 
 #weather-container {
@@ -122,6 +133,21 @@ body.day-grey {
 }
 body.overcast {
   background: linear-gradient(0deg, #333 0%, #dadada 100%);
+}
+
+/* MEDIA Q */
+@media (max-width: 500px) {
+  #root {
+    padding: 0px;
+  }
+  #days {
+    display: flex !important;
+    flex-direction: column;
+  }
+  #days section:first-child {
+    border-right: none !important;
+    border-bottom: 1px solid white;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

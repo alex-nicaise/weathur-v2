@@ -41,7 +41,7 @@ const WeatherDisplay = () => {
     return <h1>Loading...</h1>;
   } else {
     return (
-      <>
+      <span>
         <img
           src={weatherResponse?.icon}
           alt="Icon for the current weather"
@@ -66,35 +66,35 @@ const WeatherDisplay = () => {
             <span>{`UV Index: ${weatherResponse?.uvIndex}`}</span>
           </div>
 
-          {/* {weather.extended && (
-          <section id="day-forecast">
-            <h3>Extended Forecast</h3>
+          {weatherResponse?.extended && (
+            <section id="day-forecast">
+              <h3>Extended Forecast</h3>
 
-            <div id="days">
-              {weather.extended &&
-                weather.extended.map((day, index) => {
-                  return (
-                    <section key={index}>
-                      <h4>{day.dayOfWeek}</h4>
-                      <p>
-                        {day.cond}
-                        <br />
-                        {`Min: ${day.min}°`}
-                        <br />
-                        {`Max: ${day.max}°`}
-                        <br />
-                        {`Rain: ${day.rain}%`}
-                        <br />
-                        {day.snow !== 0 ? `Snow: ${day.snow}%` : ""}
-                      </p>
-                    </section>
-                  );
-                })}
-            </div>
-          </section>
-        )} */}
+              <div id="days">
+                {weatherResponse?.extended &&
+                  weatherResponse?.extended.map((day, index) => {
+                    return (
+                      <section key={index}>
+                        <h4>{day.dayOfWeek}</h4>
+                        <p>
+                          {day.cond}
+                          <br />
+                          {`Min: ${day.min}°`}
+                          <br />
+                          {`Max: ${day.max}°`}
+                          <br />
+                          {`Rain: ${day.rain}%`}
+                          <br />
+                          {day.snow !== 0 ? `Snow: ${day.snow}%` : ""}
+                        </p>
+                      </section>
+                    );
+                  })}
+              </div>
+            </section>
+          )}
         </section>
-      </>
+      </span>
     );
   }
 };

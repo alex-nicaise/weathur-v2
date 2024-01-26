@@ -127,6 +127,15 @@ export type CodesReturn = {
   theme?: string;
 };
 
+export type ExtendedDaysType = {
+  dayOfWeek: string;
+  min: number;
+  max: number;
+  cond: string;
+  rain: number;
+  snow: number;
+};
+
 export type WeatherStateType = {
   location?: string;
   condition?: string;
@@ -137,4 +146,5 @@ export type WeatherStateType = {
   gust?: string;
   humidity?: number;
   uvIndex?: number;
+  extended: ExtendedDaysType[];
 };
