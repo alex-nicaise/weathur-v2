@@ -122,6 +122,17 @@ export type APIResponseType = {
   };
 };
 
+export type WeatherContextType = {
+  weather: {
+    location: string;
+  };
+  setWeather: React.Dispatch<
+    React.SetStateAction<{
+      location: string;
+    }>
+  >;
+};
+
 export type CodesReturn = {
   path?: string;
   theme?: string;

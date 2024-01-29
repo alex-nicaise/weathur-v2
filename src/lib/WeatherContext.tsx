@@ -1,7 +1,30 @@
-import { createContext } from "react";
+import { createContext, useContext, useState } from "react";
+import { WeatherContextType } from "./definitions";
 
-const WeatherContext = createContext({
-  location: "San Francisco",
-});
+const WeatherContext = createContext<WeatherContextType | null>(null);
 
-export default WeatherContext;
+export const WeatherContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [weather, setWeather] = useState({
+    location: "San Francisco",
+  });
+
+  return (
+    <WeatherContext.Provider value={{ weather, setWeather }}>
+      {children}
+    </WeatherContext.Provider>
+  );
+};
+
+export const useWeatherContext = () => {
+  const context = useContext(WeatherContext);
+
+  if (!context) {
+    throw new Error("No context was specified.");
+  }
+
+  return context;
+};

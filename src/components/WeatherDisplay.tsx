@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import WeatherContext from "../lib/WeatherContext";
+import { useEffect, useState } from "react";
+import { useWeatherContext } from "../lib/WeatherContext";
 import { useForecast } from "../lib/utils";
 import { WeatherStateType } from "../lib/definitions";
 import WeatherDisplaySkeleton from "../skeletons/WeatherDisplaySkeleton";
 
 const WeatherDisplay = () => {
-  const weather = useContext(WeatherContext);
+  const { weather } = useWeatherContext();
   const [weatherResponse, setWeatherResponse] = useState<WeatherStateType>();
   const [loading, setLoading] = useState(true);
 

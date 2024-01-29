@@ -36,17 +36,37 @@ header h2 {
   color: white;
   font-weight: 400;
   font-size: 25px;
+  width: 100%;
 }
 
 #search-form {
   display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 250px;
 }
 #search-form input {
-  border-radius: 200px;
-  border: 1px solid transparent;
+  display: flex;
+  width: 100%;
+  max-width: 150px;
+  border-top-left-radius: 200px;
+  border-bottom-left-radius: 200px;
+  border: 0px;
   height: 2em;
   font-size: 16px;
   padding-left: 10px;
+}
+#search-form button {
+  color: white;
+  background-color: hsl(256deg, 78%, 34%);
+  border: 0px;
+  border-radius: 0px;
+  padding: 0px 12px 0px 10px;
+  border-top-right-radius: 200px;
+  border-bottom-right-radius: 200px;
+}
+#search-form button:hover {
+  background-color: hsl(256deg, 79%, 26%);
 }
 
 #weather-container {
