@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
-import { useWeatherContext } from "../lib/WeatherContext";
+import { useWeatherContext } from "../lib/Context/WeatherContext";
 import { useForecast } from "../lib/utils";
 import { WeatherStateType } from "../lib/definitions";
 import WeatherDisplaySkeleton from "../skeletons/WeatherDisplaySkeleton";
+import { useLoadingContext } from "../lib/Context/LoadingContext";
+import { useErrorContext } from "../lib/Context/ErrorContext";
+import ErrorDisplay from "./ErrorDisplay";
 
 const WeatherDisplay = () => {
   const { weather } = useWeatherContext();
+  const { loading, setLoading } = useLoadingContext();
+  const { appError, setAppError } = useErrorContext();
   const [weatherResponse, setWeatherResponse] = useState<WeatherStateType>();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+    setAppError({ message: "", name: "" });
+
     const controller = new AbortController();
     const apiKey = import.meta.env.VITE_API_KEY;
 
-    setLoading(true);
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${weather.location}&days=3&aqi=no&alerts=no`,
       { signal: controller.signal }
@@ -21,12 +27,16 @@ const WeatherDisplay = () => {
       .then((res) => res.json())
       .then(async (data) => {
         let usingForecast = await useForecast(data);
-
         setWeatherResponse(usingForecast);
         setLoading(false);
       })
       .catch((error: Error) => {
-        console.log(error);
+        setLoading(false);
+        setAppError({
+          message: error.message,
+          name: error.name,
+        });
+        console.log(appError);
       });
     return () => {
       controller.abort();
@@ -39,64 +49,68 @@ const WeatherDisplay = () => {
 
   if (loading) {
     return <WeatherDisplaySkeleton />;
-  } else {
-    return (
-      <span>
-        <img
-          src={weatherResponse?.icon}
-          alt="Icon for the current weather"
-          id="condition-icon"
-        />
-
-        <h1>{`${weatherResponse?.temperature}°`}</h1>
-        <h3>{weatherResponse?.location}</h3>
-        <h4>
-          <strong>{weatherResponse?.condition}</strong>
-        </h4>
-
-        <hr />
-
-        <section id="other-info">
-          <div className="info-row">
-            <span>{`Feels like: ${weatherResponse?.feelsLike}°`}</span>
-            <span>{`Wind: ${weatherResponse?.gust}`}</span>
-          </div>
-          <div className="info-row">
-            <span>{`Humidity: ${weatherResponse?.humidity}%`}</span>
-            <span>{`UV Index: ${weatherResponse?.uvIndex}`}</span>
-          </div>
-
-          {weatherResponse?.extended && (
-            <section id="day-forecast">
-              <h3>Extended Forecast</h3>
-
-              <div id="days">
-                {weatherResponse?.extended &&
-                  weatherResponse?.extended.map((day, index) => {
-                    return (
-                      <section key={index}>
-                        <h4>{day.dayOfWeek}</h4>
-                        <p>
-                          {day.cond}
-                          <br />
-                          {`Min: ${day.min}°`}
-                          <br />
-                          {`Max: ${day.max}°`}
-                          <br />
-                          {`Rain: ${day.rain}%`}
-                          <br />
-                          {day.snow !== 0 ? `Snow: ${day.snow}%` : ""}
-                        </p>
-                      </section>
-                    );
-                  })}
-              </div>
-            </section>
-          )}
-        </section>
-      </span>
-    );
   }
+
+  if (appError.message !== "" && appError.name !== "AbortError") {
+    return <ErrorDisplay />;
+  }
+
+  return (
+    <span>
+      <img
+        src={weatherResponse?.icon}
+        alt="Icon for the current weather"
+        id="condition-icon"
+      />
+
+      <h1>{`${weatherResponse?.temperature}°`}</h1>
+      <h3>{weatherResponse?.location}</h3>
+      <h4>
+        <strong>{weatherResponse?.condition}</strong>
+      </h4>
+
+      <hr />
+
+      <section id="other-info">
+        <div className="info-row">
+          <span>{`Feels like: ${weatherResponse?.feelsLike}°`}</span>
+          <span>{`Wind: ${weatherResponse?.gust}`}</span>
+        </div>
+        <div className="info-row">
+          <span>{`Humidity: ${weatherResponse?.humidity}%`}</span>
+          <span>{`UV Index: ${weatherResponse?.uvIndex}`}</span>
+        </div>
+
+        {weatherResponse?.extended && (
+          <section id="day-forecast">
+            <h3>Extended Forecast</h3>
+
+            <div id="days">
+              {weatherResponse?.extended &&
+                weatherResponse?.extended.map((day, index) => {
+                  return (
+                    <section key={index}>
+                      <h4>{day.dayOfWeek}</h4>
+                      <p>
+                        {day.cond}
+                        <br />
+                        {`Min: ${day.min}°`}
+                        <br />
+                        {`Max: ${day.max}°`}
+                        <br />
+                        {`Rain: ${day.rain}%`}
+                        <br />
+                        {day.snow !== 0 ? `Snow: ${day.snow}%` : ""}
+                      </p>
+                    </section>
+                  );
+                })}
+            </div>
+          </section>
+        )}
+      </section>
+    </span>
+  );
 };
 
 export default WeatherDisplay;

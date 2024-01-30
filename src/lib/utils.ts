@@ -7,14 +7,18 @@ const findCondition = async (inputCode: number, isDay: number) => {
     throw new Error();
   }
 
-  if (inputCode == 1000 || inputCode == 1003) {
-    // Check time to get night or day pathing
-    if (isDay === 0) {
+  // Check time to get night or day pathing
+  if (isDay === 0) {
+    if (inputCode == 1000 || inputCode == 1003) {
       return {
         path: codes[inputCode].pathNight,
         theme: codes[inputCode].themeNight,
       };
     }
+    return {
+      path: codes[inputCode].path,
+      theme: codes[inputCode].themeNight,
+    };
   }
 
   return {

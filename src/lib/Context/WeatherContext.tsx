@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { WeatherContextType } from "./definitions";
+import { WeatherContextType } from "../definitions";
 
 const WeatherContext = createContext<WeatherContextType | null>(null);
 
@@ -23,7 +23,7 @@ export const useWeatherContext = () => {
   const context = useContext(WeatherContext);
 
   if (!context) {
-    throw new Error("No context was specified.");
+    throw new Error("No Weather Context Found.");
   }
 
   return context;

@@ -133,6 +133,24 @@ export type WeatherContextType = {
   >;
 };
 
+export type LoadingContextType = {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type ErrorContextType = {
+  appError: {
+    message: string;
+    name: string;
+  };
+  setAppError: React.Dispatch<
+    React.SetStateAction<{
+      message: string;
+      name: string;
+    }>
+  >;
+};
+
 export type CodesReturn = {
   path?: string;
   theme?: string;
