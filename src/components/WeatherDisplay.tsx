@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useWeatherContext } from "../lib/Context/WeatherContext";
-import { useForecast } from "../lib/utils";
+import { returnedForecast } from "../lib/utils";
 import { WeatherStateType } from "../lib/definitions";
 import WeatherDisplaySkeleton from "../skeletons/WeatherDisplaySkeleton";
 import { useLoadingContext } from "../lib/Context/LoadingContext";
@@ -26,9 +26,7 @@ const WeatherDisplay = () => {
     )
       .then((res) => res.json())
       .then(async (data) => {
-        let usingForecast = await useForecast(data);
-        setWeatherResponse(usingForecast);
-        setLoading(false);
+        setWeatherResponse(await returnedForecast(data));
       })
       .catch((error: Error) => {
         setLoading(false);
@@ -36,12 +34,14 @@ const WeatherDisplay = () => {
           message: error.message,
           name: error.name,
         });
-        console.log(appError);
+      })
+      .finally(() => {
+        setLoading(false);
       });
     return () => {
       controller.abort();
     };
-  }, [weather.location]);
+  }, [setAppError, setLoading, weather.location]);
 
   useEffect(() => {
     document.body.className = `${weatherResponse?.theme}`;
@@ -64,7 +64,7 @@ const WeatherDisplay = () => {
       />
 
       <h1>{`${weatherResponse?.temperature}°`}</h1>
-      <h3>{weatherResponse?.location}</h3>
+      <h3 data-testid="city-location-header">{weatherResponse?.location}</h3>
       <h4>
         <strong>{weatherResponse?.condition}</strong>
       </h4>

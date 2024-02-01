@@ -18,6 +18,7 @@ const Header = () => {
     <header>
       <h2>Weathur</h2>
       <form
+        data-testid="city-form"
         autoComplete="off"
         id="search-form"
         onSubmit={(e) => {
@@ -25,6 +26,7 @@ const Header = () => {
         }}
       >
         <input
+          data-testid="city-input"
           type="text"
           name="cityZip"
           placeholder="City or Zip..."

@@ -1,9 +1,9 @@
 import { codes } from "./data";
 import { APIResponseType } from "./definitions";
 
-const findCondition = async (inputCode: number, isDay: number) => {
+export const findCondition = async (inputCode: number, isDay: number) => {
   // Find the Hour of Day for Certain Icons
-  if (!inputCode) {
+  if (!inputCode && !isDay) {
     throw new Error();
   }
 
@@ -27,15 +27,15 @@ const findCondition = async (inputCode: number, isDay: number) => {
   };
 };
 
-const forecastSetter = async (data: APIResponseType) => {
+export const forecastSetter = async (data: APIResponseType) => {
   if (!data) {
     throw new Error();
   }
-  let codePathAndType = await findCondition(
+  const codePathAndType = await findCondition(
     data.current.condition.code,
     data.current.is_day
   );
-  let returnedData = {
+  const returnedData = {
     location: data.location.name,
     condition: data.current.condition.text,
     icon: codePathAndType.path,
@@ -91,6 +91,6 @@ const forecastSetter = async (data: APIResponseType) => {
   return returnedData;
 };
 
-export const useForecast = async (data: APIResponseType) => {
-  return forecastSetter(data);
+export const returnedForecast = async (data: APIResponseType) => {
+  return await forecastSetter(data);
 };
