@@ -22,7 +22,7 @@ const WeatherDisplay = () => {
 
     fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${weather.location}&days=3&aqi=no&alerts=no`,
-      { signal: controller.signal }
+      { signal: controller.signal, mode: "cors" }
     )
       .then((res) => res.json())
       .then(async (data) => {

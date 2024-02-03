@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { WeatherContextType } from "../definitions";
 
-const WeatherContext = createContext<WeatherContextType | null>(null);
+export const WeatherContext = createContext<WeatherContextType | null>(null);
 
 export const WeatherContextProvider = ({
   children,

@@ -293,6 +293,15 @@ body {
   #root {
     padding: 0px;
   }
+
+  body {
+    padding: 0px 15px;
+  }
+
+  #weather-body span:not(.info-row > span) {
+    margin: 35px 25px;
+  }
+
   #days {
     display: flex !important;
     flex-direction: column;
