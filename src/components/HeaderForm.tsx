@@ -18,7 +18,7 @@ const HeaderForm = ({
     >
       <input
         data-testid="city-input"
-        type="text"
+        type="search"
         name="cityZip"
         placeholder="City or Zip..."
         aria-label="City or Zip Code Input"
